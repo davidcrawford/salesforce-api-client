@@ -13,8 +13,8 @@ class Client(object):
     def request(self, uri, method='GET', body=None, headers=None,
                 redirections=httplib2.DEFAULT_MAX_REDIRECTS,
                 connection_type=None):
-        if hasattr(self, 'credentials'):
-            token_response = self.credentials.token_response
+        if hasattr(self.request, 'credentials'):
+            token_response = self.request.credentials.token_response
             instance_url = token_response.get('instance_url',
                                               DEFAULT_INSTANCE_URL)
         else:
@@ -25,6 +25,6 @@ class Client(object):
         except httplib2.MalformedHeader as e:
             if e.message.lower() != 'www-authenticate':
                 raise
-            self.credentials.refresh()
+            self.request.credentials.refresh()
             return self.http.request(instance_url + uri, method, body,
                                      headers, redirections, connection_type)
