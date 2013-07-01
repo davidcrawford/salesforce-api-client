@@ -25,6 +25,6 @@ class Client(object):
         except httplib2.MalformedHeader as e:
             if e.message.lower() != 'www-authenticate':
                 raise
-            self.request.credentials.refresh()
+            self.request.credentials.refresh(self.http)
             return self.http.request(instance_url + uri, method, body,
                                      headers, redirections, connection_type)
