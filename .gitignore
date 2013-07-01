@@ -1,0 +1,12 @@
+*.sqlite3
+*.pyc
+*.swp
+.DS_Store
+venv
+build
+play
+activate
+*.log
+.dotcloud
+static/*
+celerybeat-schedule
