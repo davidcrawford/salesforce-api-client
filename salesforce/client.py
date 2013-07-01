@@ -26,5 +26,7 @@ class Client(object):
             if e.message.lower() != 'www-authenticate':
                 raise
             self.request.credentials.refresh(self.http)
+            instance_url = self.request.credentials.token_response.get(
+                'instance_url')
             return self.http.request(instance_url + uri, method, body,
                                      headers, redirections, connection_type)
