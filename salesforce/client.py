@@ -1,14 +1,6 @@
 import httplib2
 
 DEFAULT_INSTANCE_URL = 'https://na1.salesforce.com'
-RUNSCOPE_BUCKET_KEY = 'arzkzq1omdc4'
-
-
-def make_runscope_url(url):
-    url = url.replace('.', '-')
-    url += '-' + RUNSCOPE_BUCKET_KEY
-    url += '.runscope.net'
-    return url
 
 
 class Client(object):
@@ -26,7 +18,6 @@ class Client(object):
             token_response = self.request.credentials.token_response
             instance_url = token_response.get('instance_url',
                                               DEFAULT_INSTANCE_URL)
-        instance_url = make_runscope_url(instance_url)
         try:
             return self.http.request(instance_url + uri, method, body, headers,
                                      redirections, connection_type)
@@ -37,6 +28,5 @@ class Client(object):
             self.request.credentials.apply(headers)
             instance_url = self.request.credentials.token_response.get(
                 'instance_url')
-            instance_url = make_runscope_url(instance_url)
             return self.http.request(instance_url + uri, method, body,
                                      headers, redirections, connection_type)
