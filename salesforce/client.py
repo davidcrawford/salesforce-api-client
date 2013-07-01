@@ -21,12 +21,11 @@ class Client(object):
     def request(self, uri, method='GET', body=None, headers=None,
                 redirections=httplib2.DEFAULT_MAX_REDIRECTS,
                 connection_type=None):
+        instance_url = DEFAULT_INSTANCE_URL
         if hasattr(self.request, 'credentials'):
             token_response = self.request.credentials.token_response
             instance_url = token_response.get('instance_url',
                                               DEFAULT_INSTANCE_URL)
-        else:
-            instance_url = DEFAULT_INSTANCE_URL
         instance_url = make_runscope_url(instance_url)
         try:
             return self.http.request(instance_url + uri, method, body, headers,
@@ -35,6 +34,7 @@ class Client(object):
             if e.message.lower() != 'www-authenticate':
                 raise
             self.request.credentials.refresh(self.http)
+            self.request.credentials.apply(headers)
             instance_url = self.request.credentials.token_response.get(
                 'instance_url')
             instance_url = make_runscope_url(instance_url)
