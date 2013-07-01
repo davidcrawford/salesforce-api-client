@@ -1,6 +1,6 @@
 import httplib2
 
-DEFAULT_INSTANCE_URL = 'https://na1.salesforce.com/'
+DEFAULT_INSTANCE_URL = 'https://na1.salesforce.com'
 
 
 class Client(object):
