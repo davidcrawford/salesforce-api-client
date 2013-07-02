@@ -16,8 +16,9 @@ class Client(object):
         instance_url = DEFAULT_INSTANCE_URL
         if hasattr(self.request, 'credentials'):
             token_response = self.request.credentials.token_response
-            instance_url = token_response.get('instance_url',
-                                              DEFAULT_INSTANCE_URL)
+            if token_response:
+                instance_url = token_response.get('instance_url',
+                                                  DEFAULT_INSTANCE_URL)
         try:
             return self.http.request(instance_url + uri, method, body, headers,
                                      redirections, connection_type)
