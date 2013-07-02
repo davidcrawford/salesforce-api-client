@@ -14,7 +14,7 @@ class Client(object):
     def request(self, uri, method='GET', body=None, headers=None,
                 redirections=httplib2.DEFAULT_MAX_REDIRECTS,
                 connection_type=None):
-        if uri and uri[0] == '/':
+        if uri and uri[0] != '/':
             return self.http.request(uri, method, body, headers, redirections,
                                      connection_type)
 
