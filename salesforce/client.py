@@ -14,6 +14,10 @@ class Client(object):
     def request(self, uri, method='GET', body=None, headers=None,
                 redirections=httplib2.DEFAULT_MAX_REDIRECTS,
                 connection_type=None):
+        if uri and uri[0] == '/':
+            return self.http.request(uri, method, body, headers, redirections,
+                                     connection_type)
+
         instance_url = DEFAULT_INSTANCE_URL
         if self.credentials:
             token_response = self.credentials.token_response
