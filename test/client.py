@@ -51,6 +51,15 @@ class TestRequest(TestCase):
 
     def test_malformed_other_header(self):
         http = Mock()
-        http.request = Mock(side_effect=httplib2.MalformedHeader('Referer'))
+        http.request.side_effect = httplib2.MalformedHeader('Referer')
         client = Client(http, None)
         self.assertRaises(httplib2.MalformedHeader, client.request, '/uri')
+
+    def test_normal_uri_passthrough(self):
+        http = Mock()
+        http.request.return_value = 'response'
+        client = Client(http, None)
+        response = client.request('https://otherdomain.com')
+        http.request.assert_called_once_with('https://otherdomain.com', ANY,
+                                             ANY, ANY, ANY, ANY)
+        self.assertEquals('response', response)
