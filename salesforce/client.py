@@ -8,12 +8,22 @@ class Client(object):
     using the instance_url returned by the Salesforce API token request.'''
 
     def __init__(self, http, credentials):
+        '''http should be an instance of httplib2.Http, and credentials
+        is an oauth2client.client.OAuth2Credentials.'''
+
         self.http = http
         self.credentials = credentials
 
     def request(self, uri, method='GET', body=None, headers=None,
                 redirections=httplib2.DEFAULT_MAX_REDIRECTS,
                 connection_type=None):
+        '''For regular uris, passes the request through to the wrapped http
+        instance.  For relative uris (starting with a slash, e.g.
+        '/services/data/v28.0/sobjects/Account/'), prepends the correct
+        instance_url based on the OAuth authentication response, and
+        manages refreshing the token and the url if the request results in
+        a 401.'''
+
         if uri and uri[0] != '/':
             return self.http.request(uri, method, body, headers, redirections,
                                      connection_type)
