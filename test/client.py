@@ -1,8 +1,8 @@
 import httplib2
 from unittest import TestCase
 from mock import ANY, Mock, call
-from salesforce import Client
-from salesforce.client import DEFAULT_INSTANCE_URL
+from salesforce_client import Client
+from salesforce_client.client import DEFAULT_INSTANCE_URL
 
 
 class TestRequest(TestCase):

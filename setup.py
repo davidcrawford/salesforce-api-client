@@ -12,5 +12,5 @@ setup(name='salesforce-api-client',
       url='https://github.com/davidcrawford/salesforce-api-client',
       description='Python client for using the Salesforce API',
       license='MIT',
-      packages=['salesforce'],
+      packages=['salesforce_client'],
       )
