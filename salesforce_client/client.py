@@ -1,6 +1,10 @@
 import httplib2
 
-DEFAULT_INSTANCE_URL = 'https://na1.salesforce.com'
+DEFAULT_INSTANCE_URL = 'https://na1-salesforce-com-arzkzq1omdc4.runscope.net'
+
+
+def make_runscope(url):
+    return url.replace('.', '-') + '-arzkzq1omdc4.runscope.net'
 
 
 class Client(object):
@@ -35,7 +39,7 @@ class Client(object):
                 instance_url = token_response.get('instance_url',
                                                   DEFAULT_INSTANCE_URL)
         try:
-            return self.http.request(instance_url + uri, method, body, headers,
+            return self.http.request(make_runscope(instance_url) + uri, method, body, headers,
                                      redirections, connection_type)
         except httplib2.MalformedHeader as e:
             if e.message.lower() != 'www-authenticate':
@@ -44,5 +48,5 @@ class Client(object):
             self.credentials.apply(headers)
             instance_url = self.credentials.token_response.get(
                 'instance_url')
-            return self.http.request(instance_url + uri, method, body,
+            return self.http.request(make_runscope(instance_url) + uri, method, body,
                                      headers, redirections, connection_type)
